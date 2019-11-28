@@ -8,12 +8,12 @@ app = Flask(__name__, static_url_path='', static_folder='../')
 #def index():     
 #    return"Hello, World!" 
 
-@app.route('cars')
+@app.route('/cars')
 def getAll():
     return "in getAll"
 
-@app.route('cars/<int:reg>')
-def getAll(id):
+@app.route('/cars/<int:reg>')
+def findByReg(reg):
     return "in find By REG for reg"+str(reg)
 
 if __name__ == '__main__' :     
