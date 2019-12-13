@@ -76,7 +76,11 @@ def update(id):
 
 @app.route('/cars/<int:id>', methods=['DELETE'])
 def delete(id):
-    return "in delete for id"+str(id)
+    foundCars = list(filter(lambda c: c['id']== id, cars))
+    if (len(foundCars) == 0):
+        abort(404)
+    cars.remove(foundCars[0])
+    return jsonify({"done":True})
 
 
 
