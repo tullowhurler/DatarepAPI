@@ -3,7 +3,7 @@ from flask import Flask
 
 app = Flask(__name__, static_url_path='', static_folder='../')
  
-cars=[{ "reg": 131
+cars=[{ "reg": 131, "make": "AudiA5", "Price":"15k","Mileage":"15000"
 
 }]
 
