@@ -30,6 +30,7 @@ def findById(id):
 
     return jsonify (foundCars[0]) 
 
+# curl -i -H "Content-Type:application/json" -X POST -d "{\"make\":\"AudiA3\",\"Price\":\"10000\",\"Mileage\":\"5000\"}" http://127.0.0.1:5000/cars
 @app.route('/cars', methods=['POST'])
 def create():
     global NextId
@@ -49,6 +50,22 @@ def create():
 
 @app.route('/cars/<int:id>', methods=['PUT'] )
 def update(id):
+    foundCars = list(filter(lambda c: c['id']== id, cars))
+    if (len(foundCars) == 0):
+        abort(404)
+    foundCar = foundCars[0]
+    if not request.json:
+        abort(400)
+    reqJson = request.json
+    if reqJson['make']:
+        foundCar['make'] = reqJson['make']
+    if reqJson['Price']:
+        foundCar['Price'] = reqJson['Price']
+    if reqJson['Mileage']:
+        foundCar['Mileage'] = reqJson['Mileage']
+    
+    return jsonify(foundCar)
+
     return "in update for id"+str(id)
 
 @app.route('/cars/<int:id>', methods=['DELETE'])
