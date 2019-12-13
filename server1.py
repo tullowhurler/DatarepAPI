@@ -48,6 +48,7 @@ def create():
     cars.append(car)
     return jsonify(car)
 
+# curl -i -H "Content-Type:application/json" -X PUT -d "{\"make\":\"AudiA3\",\"Price\":\"10000\",\"Mileage\":\"5000\"}" http://127.0.0.1:5000/cars/1
 @app.route('/cars/<int:id>', methods=['PUT'] )
 def update(id):
     foundCars = list(filter(lambda c: c['id']== id, cars))
@@ -57,11 +58,11 @@ def update(id):
     if not request.json:
         abort(400)
     reqJson = request.json
-    if reqJson['make']:
+    if 'make' in reqJson:
         foundCar['make'] = reqJson['make']
-    if reqJson['Price']:
+    if 'Price' in reqJson:
         foundCar['Price'] = reqJson['Price']
-    if reqJson['Mileage']:
+    if 'Mileage' in reqJson:
         foundCar['Mileage'] = reqJson['Mileage']
     
     return jsonify(foundCar)
