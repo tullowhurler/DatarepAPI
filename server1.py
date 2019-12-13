@@ -58,6 +58,11 @@ def update(id):
     if not request.json:
         abort(400)
     reqJson = request.json
+    if 'Price' in reqJson and type(reqJson['Price']) is not int:
+        abort(400)
+    if 'Mileage' in reqJson and type(reqJson['Mileage']) is not int:
+        abort(400)
+        
     if 'make' in reqJson:
         foundCar['make'] = reqJson['make']
     if 'Price' in reqJson:
