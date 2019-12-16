@@ -2,6 +2,7 @@
 from flask import Flask, jsonify, request, abort
 from carDAO import carDAO
 import mysql.connector 
+
 app = Flask(__name__, static_url_path='', static_folder='../')
  
 cars=[ 
@@ -45,8 +46,9 @@ def create():
         "Mileage": request.json['Mileage'],
 
     }
-    NextId +=1
-    cars.append(car)
+    values =(car['make'],car['Price'],car['Mileage'])
+    newId = carDAO.create(values)
+    car['id'] = newId
     return jsonify(car)
 
 # curl -i -H "Content-Type:application/json" -X PUT -d "{\"make\":\"AudiA3\",\"Price\":\"10000\",\"Mileage\":\"5000\"}" http://127.0.0.1:5000/cars/1
