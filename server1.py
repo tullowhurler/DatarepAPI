@@ -1,6 +1,7 @@
 #!flask/bin/python 
 from flask import Flask, jsonify, request, abort
-
+from carDAO import carDAO
+import mysql.connector 
 app = Flask(__name__, static_url_path='', static_folder='../')
  
 cars=[ 
@@ -19,16 +20,16 @@ NextId=4
 #curl "http://127.0.0.1:5000/cars"
 @app.route('/cars')
 def getAll():
-    return jsonify(cars)
+    #print("in getall")
+    results = carDAO.getAll()
+    return jsonify(results)
 
 # curl "http://127.0.0.1:5000/cars/131"
 @app.route('/cars/<int:id>')
 def findById(id):
-    foundCars = list(filter(lambda c: c['id'] == id, cars))
-    if len(foundCars) == 0:
-        return jsonify ({}) , 204 
+    foundCars = carDAO.findByID(id) 
 
-    return jsonify (foundCars[0]) 
+    return jsonify (foundCars) 
 
 # curl -i -H "Content-Type:application/json" -X POST -d "{\"make\":\"AudiA3\",\"Price\":\"10000\",\"Mileage\":\"5000\"}" http://127.0.0.1:5000/cars
 @app.route('/cars', methods=['POST'])
