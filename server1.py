@@ -4,15 +4,8 @@ from carDAO import carDAO
 import mysql.connector 
 
 app = Flask(__name__, static_url_path='', static_folder='../')
- 
-cars=[ 
-    {"id": 1, "make": "AudiA5", "Price":"15000","Mileage":"25000"},
-    {"id": 2, "make": "AudiA6", "Price":"20000","Mileage":"20000"},
-    {"id": 3, "make": "AudiA7", "Price":"30000","Mileage":"15000"}
-]
-NextId=4
 
- #app = Flask(__name__)
+#app = Flask(__name__)
  
 #@app.route('/') 
 #def index():     
@@ -35,16 +28,15 @@ def findById(id):
 # curl -i -H "Content-Type:application/json" -X POST -d "{\"make\":\"AudiA3\",\"Price\":\"10000\",\"Mileage\":\"5000\"}" http://127.0.0.1:5000/cars
 @app.route('/cars', methods=['POST'])
 def create():
-    global NextId
+    
     if not request.json:
         abort(400)
     # other checking
     car = {
-        "id": NextId,
         "make": request.json['make'],
         "Price": request.json['Price'],
         "Mileage": request.json['Mileage'],
-
+        
     }
     values =(car['make'],car['Price'],car['Mileage'])
     newId = carDAO.create(values)
@@ -54,10 +46,10 @@ def create():
 # curl -i -H "Content-Type:application/json" -X PUT -d "{\"make\":\"AudiA3\",\"Price\":\"10000\",\"Mileage\":\"5000\"}" http://127.0.0.1:5000/cars/1
 @app.route('/cars/<int:id>', methods=['PUT'] )
 def update(id):
-    foundCars = list(filter(lambda c: c['id']== id, cars))
-    if (len(foundCars) == 0):
+    foundCarr = carDAO.findByID(id)
+    if not foundCarr: 
         abort(404)
-    foundCar = foundCars[0]
+
     if not request.json:
         abort(400)
     reqJson = request.json
@@ -73,16 +65,14 @@ def update(id):
     if 'Mileage' in reqJson:
         foundCar['Mileage'] = reqJson['Mileage']
     
+    values = (foundCar['make'],foundCar['Price'],foundCar['Mileage'], foundCars['id'])
+    # will not update for some reason, everything is working fine
+    carDAO.update(values)
     return jsonify(foundCar)
-
-    return "in update for id"+str(id)
 
 @app.route('/cars/<int:id>', methods=['DELETE'])
 def delete(id):
-    foundCars = list(filter(lambda c: c['id']== id, cars))
-    if (len(foundCars) == 0):
-        abort(404)
-    cars.remove(foundCars[0])
+    carDAO.delete(id)
     return jsonify({"done":True})
 
 
