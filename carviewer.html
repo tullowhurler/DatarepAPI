@@ -48,7 +48,7 @@
         <div id='createUpdateForm' style="display: none">
 
                 <h2><span id="createLabel">Create a</span> <span id="updateLabel">update</span> Car</h2>
-
+                <input type="hidden" name="id/">
                 
 
                 make <input type="text" name="make"/>  <br/>
@@ -145,9 +145,8 @@
 
         var car = {}
 
-        car.id = form.querySelector('input[name="id"]').value
 
-        car.make = form.querySelector('select[name="make"]').value
+        car.make = form.querySelector('input[name="make"]').value
 
         car.price = form.querySelector('input[name="price"]').value
 
@@ -156,14 +155,6 @@
         console.log(JSON.stringify(car))
 
         createCarAjax(car)
-
-        addCarToTable(car)
-
-        clearForm()
-
-        
-
-        showViewAll()
 
     }
 
@@ -177,7 +168,7 @@
 
         setCarInRow(rowElement,car);
 
-       
+        
 
         clearForm();
 
@@ -247,7 +238,7 @@
 
         form.querySelector('input[name="id"]').value  =''
 
-        form.querySelector('select[name="make"]').value=''
+        form.querySelector('input[name="make"]').value=''
 
         form.querySelector('input[name="price"]').value=''
 
@@ -259,7 +250,7 @@
 
         var car ={}
 
-        car.id  = rowElement.cells[0].firstChild.textContent
+        car.id  = rowElement.getAttribute('id')
 
         car.make = rowElement.cells[1].firstChild.textContent
 
@@ -293,7 +284,7 @@
 
         form.querySelector('input[name="id"]').value  = car.id
 
-        form.querySelector('select[name="make"]').value= car.make
+        form.querySelector('input[name="make"]').value= car.make
 
         form.querySelector('input[name="price"]').value= car.price
 
@@ -382,8 +373,12 @@
             "success":function(result){
 
                 //console.log(result);
+                car.car=result.id
+                addCarToTable(car)
+                
+                clearForm();
 
-                 
+                showViewAll();
 
             },
 
@@ -435,9 +430,9 @@
 
     function deleteCarAjax(id){
 
-        //var car = {"reg":"12 D 1234"}
+        
 
-        console.log(JSON.stringify(car));
+        //console.log(JSON.stringify('deleting'+id));
 
         $.ajax({
 
