@@ -10,3 +10,5 @@ This project was worth 60% of my final grade and was due for submission on the 2
 I had an issue with the gitignore for the DBconfig file, I tried to include it in the gitignore but was commited to GitHub anyway.
 
 I installed flask through venv and saved everything in requirements.txt
+
+The sqlcode.txt file contains the sql code that I ran through a WAMP server to create the database cars for this project.
