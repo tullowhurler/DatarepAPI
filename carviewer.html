@@ -25,13 +25,13 @@
 
                 <tr>
 
-                        <th>Reg</th>
+                        <th>id</th>
 
-                        <th>Make</th>
-
-                        <th>Model</th>
+                        <th>make</th>
 
                         <th>Price</th>
+
+                        <th>Mileage</th>
 
                         <th>Update</th>
 
@@ -49,21 +49,13 @@
 
                 <h2><span id="createLabel">Create a</span> <span id="updateLabel">update</span> Car</h2>
 
-                Reg <input type="text" name="reg"/> <br/>
+                
 
-                Make <select name="make">
-
-                        <option value="Ford">Ford</option>
-
-                        <option value="Fiat">Fiat</option>
-
-                        <option value="Nissan">Nissan</option>
-
-                </select> <br/>
-
-                Model <input type="text" name="model"/> <br/>
+                make <input type="text" name="make"/>  <br/>
 
                 Price <input type="number" name="price"/> <br/>
+
+                Mileage <input type="number" name="mileage"/> <br/>
 
                 <span><button id="doCreateButton" onclick="doCreate()">Create</button></span>
 
@@ -153,13 +145,13 @@
 
         var car = {}
 
-        car.reg = form.querySelector('input[name="reg"]').value
+        car.id = form.querySelector('input[name="id"]').value
 
         car.make = form.querySelector('select[name="make"]').value
 
-        car.model = form.querySelector('input[name="model"]').value
-
         car.price = form.querySelector('input[name="price"]').value
+
+        car.mileage = form.querySelector('input[name="mileage"]').value
 
         console.log(JSON.stringify(car))
 
@@ -179,7 +171,7 @@
 
         var car = getCarFromForm();
 
-        var rowElement = document.getElementById(car.reg);
+        var rowElement = document.getElementById(car.id);
 
         updateCarAjax(car);
 
@@ -213,11 +205,11 @@
 
         var rowElement = tableElement.insertRow(-1)
 
-        rowElement.setAttribute('id',car.reg)
+        rowElement.setAttribute('id',car.id)
 
         var cell1 = rowElement.insertCell(0);
 
-        cell1.innerHTML = car.reg
+        cell1.innerHTML = car.id
 
         var cell2 = rowElement.insertCell(1);
 
@@ -225,11 +217,11 @@
 
         var cell3 = rowElement.insertCell(2);
 
-        cell3.innerHTML = car.model
+        cell3.innerHTML = car.price
 
         var cell4 = rowElement.insertCell(3);
 
-        cell4.innerHTML = car.price
+        cell4.innerHTML = car.mileage
 
         var cell5 = rowElement.insertCell(4);
 
@@ -251,15 +243,15 @@
 
 
 
-        form.querySelector('input[name="reg"]').disabled = false
+        form.querySelector('input[name="id"]').disabled = false
 
-        form.querySelector('input[name="reg"]').value  =''
+        form.querySelector('input[name="id"]').value  =''
 
         form.querySelector('select[name="make"]').value=''
 
-        form.querySelector('input[name="model"]').value=''
-
         form.querySelector('input[name="price"]').value=''
+
+        form.querySelector('input[name="mileage"]').value=''
 
     }
 
@@ -267,13 +259,13 @@
 
         var car ={}
 
-        car.reg  = rowElement.cells[0].firstChild.textContent
+        car.id  = rowElement.cells[0].firstChild.textContent
 
         car.make = rowElement.cells[1].firstChild.textContent
 
-        car.model = rowElement.cells[2].firstChild.textContent
+        car.price = rowElement.cells[2].firstChild.textContent
 
-        car.price = parseInt(rowElement.cells[3].firstChild.textContent,10)
+        car.mileage = parseInt(rowElement.cells[3].firstChild.textContent,10)
 
         return car
 
@@ -281,13 +273,13 @@
 
     function setCarInRow(rowElement, car){
 
-        rowElement.cells[0].firstChild.textContent= car.reg  
+        rowElement.cells[0].firstChild.textContent= car.id  
 
         rowElement.cells[1].firstChild.textContent= car.make 
 
-        rowElement.cells[2].firstChild.textContent= car.model
+        rowElement.cells[2].firstChild.textContent= car.price
 
-        rowElement.cells[3].firstChild.textContent= car.price
+        rowElement.cells[3].firstChild.textContent= car.mileage
 
     }
 
@@ -295,17 +287,17 @@
 
         var form = document.getElementById('createUpdateForm')
 
-        form.querySelector('input[name="reg"]').disabled = true
+        form.querySelector('input[name="id"]').disabled = true
 
 
 
-        form.querySelector('input[name="reg"]').value  = car.reg
+        form.querySelector('input[name="id"]').value  = car.id
 
         form.querySelector('select[name="make"]').value= car.make
 
-        form.querySelector('input[name="model"]').value= car.model
-
         form.querySelector('input[name="price"]').value= car.price
+
+        form.querySelector('input[name="mileage"]').value= car.mileage
 
         return car
 
@@ -317,13 +309,13 @@
 
         var car = {}
 
-        car.reg = form.querySelector('input[name="reg"]').value
+        car.id = form.querySelector('input[name="id"]').value
 
         car.make = form.querySelector('select[name="make"]').value
 
-        car.model = form.querySelector('input[name="model"]').value
+        car.price = form.querySelector('input[name="price"]').value
 
-        car.price = parseInt(form.querySelector('input[name="price"]').value,10)
+        car.mileage = parseInt(form.querySelector('input[name="mileage"]').value,10)
 
         console.log(JSON.stringify(car))
 
@@ -347,7 +339,7 @@
 
                 //console.log(result);
 
-                for (car of result.cars){
+                for (car of result){
 
                     addCarToTable(car);
 
@@ -413,7 +405,7 @@
 
         $.ajax({
 
-            "url": "http://127.0.0.1:5000/cars/"+encodeURI(car.reg),
+            "url": "http://127.0.0.1:5000/cars/"+encodeURI(car.id),
 
             "method":"PUT",
 
@@ -441,7 +433,7 @@
 
     }
 
-    function deleteCarAjax(reg){
+    function deleteCarAjax(id){
 
         //var car = {"reg":"12 D 1234"}
 
@@ -449,7 +441,7 @@
 
         $.ajax({
 
-            "url": "http://127.0.0.1:5000/cars/"+encodeURI(reg),
+            "url": "http://127.0.0.1:5000/cars/"+encodeURI(id),
 
             "method":"DELETE",
 
