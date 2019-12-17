@@ -1,3 +1,16 @@
+create database datarepresentation; 
+
+use datarepresentation;
+
+create table car ( 
+id int NOT NULL auto_increment, 
+make varchar(100),  
+Price int(100),
+Mileage int(100), 
+PRIMARY KEY(id) 
+)
+; 
+
 insert into car (make,Price,Mileage) values (’AudiA6’,25000,50000);
 
 select * from car;
