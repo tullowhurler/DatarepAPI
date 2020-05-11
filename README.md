@@ -1,4 +1,4 @@
-# DatarepAPI
+# Data Representation 
 Data Representation Project, Hosting an API for my module on Data Representation. This is part of my Data Analytics conversion course through GMIT. 
 
 I have created the server into the file server.py, the DOA and the carviewer in html. I have added the image to the HTML page and that is in the repository too. 
